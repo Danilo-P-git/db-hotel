@@ -37,6 +37,26 @@ SELECT COUNT(prenotazioni_has_ospiti.prenotazione_id), prenotazioni_has_ospiti.o
 FROM `prenotazioni_has_ospiti`
 JOIN ospiti
 ON ospiti.id = prenotazioni_has_ospiti.ospite_id
-WHERE prenotazioni_has_ospiti.prenotazione_id
-HAVING COUNT(prenotazioni_has_ospiti.prenotazione_id) > 2
 GROUP BY prenotazioni_has_ospiti.ospite_id
+HAVING COUNT(prenotazioni_has_ospiti.prenotazione_id) > 2
+
+------------------------------------------------------------------------------------------
+
+Stampare tutti gli ospiti per ogni prenotazione
+
+SELECT prenotazioni_has_ospiti.id, prenotazioni_has_ospiti.ospite_id, ospiti.* 
+FROM `prenotazioni_has_ospiti` 
+JOIN ospiti
+ON prenotazioni_has_ospiti.ospite_id
+
+------------------------------------------------------------------------------------------
+
+Stampare Nome, Cognome, Prezzo e Pagante per tutte le prenotazioni fatte a Maggio 2018
+
+SELECT paganti.name, paganti.lastname, pagamenti.price 
+FROM `prenotazioni` 
+INNER JOIN pagamenti 
+ON prenotazioni.id = pagamenti.prenotazione_id 
+INNER JOIN paganti  
+ON pagamenti.pagante_id = paganti.id 
+WHERE DATE_FORMAT(prenotazioni.created_at , "%m") = 5 AND pagamenti.status = "accepted" 
