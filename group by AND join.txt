@@ -60,3 +60,36 @@ ON prenotazioni.id = pagamenti.prenotazione_id
 INNER JOIN paganti  
 ON pagamenti.pagante_id = paganti.id 
 WHERE DATE_FORMAT(prenotazioni.created_at , "%m") = 5 AND pagamenti.status = "accepted" 
+
+------------------------------------------------------------------------------------------
+Fai la somma di tutti i prezzi delle prenotazioni per le stanze del primo piano
+
+SELECT SUM(`price`)
+FROM `pagamenti`
+INNER JOIN prenotazioni
+ON pagamenti.prenotazione_id = prenotazioni.id
+INNER JOIN stanze
+ON prenotazioni.stanza_id = stanze.id
+WHERE status = "accepted"
+AND floor = 1;
+
+-------------------------------------------------------------------------------------------
+
+Prendi i dati di fatturazione per la prenotazione con id=7
+SELECT *
+FROM `pagamenti`
+INNER JOIN paganti
+ON pagamenti.prenotazione_id = paganti.id
+WHERE prenotazione_id = 7;
+
+--------------------------------------------------------------------------------------------
+
+Le stanze sono state tutte prenotate almeno una volta? (Visualizzare le stanze non ancora prenotate)
+
+SELECT *
+FROM `prenotazioni`
+INNER JOIN stanze
+ON prenotazioni.stanza_id = stanze.id
+WHERE stanze.id = NULL;
+
+
